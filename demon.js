@@ -1,16 +1,16 @@
-class Fish {
+class Demon {
   constructor(w, h, ctx) {
     this.ctx = ctx;
     this.img = new Image();
-    this.img.src = "./images/theFish.png";
-    this.w=120;
-    this.h=160
+    this.img.src = "./images/demon-idle.png";
+    this.w=160;
+    this.h=200;
     this.canvasW = w;
     this.canvasH = h;
 
     this.x = w;
-    this.y = Math.floor(Math.random() * ((this.canvasH - 160) - 160 + 1) + 160);
-    this.frames = 4;
+    this.y = this.canvasH/2;
+    this.frames = 6;
     this.frameIndex = 0;
 
     this.dx = 10;
@@ -31,10 +31,11 @@ class Fish {
        );
   }
   animate(framesCounter) {
+    console.log(framesCounter)
   if (framesCounter % 6 === 0) {
     this.frameIndex++;
 
-    if (this.frameIndex == 4) {
+    if (this.frameIndex === 6) {
       this.frameIndex = 0;
     }
   }
