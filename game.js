@@ -1,8 +1,8 @@
 let Game = {
   canvas: undefined,
   ctx: undefined,
-  score:0,
-
+  score: 0,
+  finalBoss: false,
   fps: 60,
   keys: {
     TOP_KEY: 38,
@@ -16,13 +16,12 @@ let Game = {
     this.ctx = this.canvas.getContext("2d");
     this.createAll();
     this.start();
-    
   },
   start: function() {
     this.initCounter();
     this.interval = setInterval(() => {
       this.clearRect();
-     let date2=new Date()
+      let date2 = new Date();
       this.frameCounter++;
       this.draw();
       this.animate();
@@ -38,11 +37,15 @@ let Game = {
           this.gameOver();
         }
       }
-      this.score= this.dateDiff(this.date1,date2);
+      this.score = this.dateDiff(this.date1, date2);
+
       this.generateDemons();
-      this.generateFishes();
+      if (!this.finalBoss) {
+        
+        this.generateFishes();
+        this.generateGrasos();
+      }
       this.eraseFishes();
-      this.generateGrasos();
       this.eraseGrasos();
     }, 1000 / this.fps);
   },
@@ -66,44 +69,43 @@ let Game = {
       this.canvas.height,
       this.ctx
     );
-    this.background2 = new Background2(
-      this.canvas.width,
-      this.canvas.height,
-      this.ctx
-    );
-    this.background3 = new Background3(
-      this.canvas.width,
-      this.canvas.height,
-      this.ctx
-    );
+    // this.background2 = new Background2(
+    //   this.canvas.width,
+    //   this.canvas.height,
+    //   this.ctx
+    // );
+    // this.background3 = new Background3(
+    //   this.canvas.width,
+    //   this.canvas.height,
+    //   this.ctx
+    // );
     this.player = new Player(
       this.canvas.width,
       this.canvas.height,
       this.ctx,
       this.keys
     );
-    
+
     this.scoreBoard = new ScoreBoard(100, 100, this.ctx);
-    this.date1 = new Date;
-    this.demons=[];
+    this.date1 = new Date();
+    this.demons = [];
     this.fishes = [];
     this.grasos = [];
   },
 
   draw: function() {
     this.background.draw();
-    this.background2.draw();
-    this.background3.draw();
+    
     this.player.draw();
     this.scoreBoard.draw();
-    
+
     this.demons.forEach(demon => demon.draw());
     this.fishes.forEach(fish => fish.draw());
     this.grasos.forEach(graso => graso.draw());
   },
   move: function() {
-    this.background2.move();
-    this.background3.move();
+    this.background.move();
+    // this.background3.move();
     this.grasos.forEach(graso => graso.move());
     this.fishes.forEach(fish => fish.move());
     this.demons.forEach(demon => demon.move());
@@ -115,13 +117,20 @@ let Game = {
       );
     }
   },
-  generateDemons: function() {  
+
+  generateDemons: function() {
     if (this.frameCounter % 600 === 0) {
+      this.finalBoss = true;
+      this.background.img2.src = "./images/clouds_BG.png";
+      this.background.img3.src = "./images/mountains.png"; 
+
+
       this.demons.push(
         new Demon(this.canvas.width, this.canvas.height, this.ctx)
       );
     }
   },
+
   generateGrasos: function() {
     if (this.frameCounter % 150 == 0) {
       this.grasos.push(
@@ -139,9 +148,8 @@ let Game = {
       if (graso.x < 0) this.grasos.splice(i, 1);
     });
   },
-  dateDiff : function(date2,date1){
-    return date1.getTime() - date2.getTime()
-
+  dateDiff: function(date2, date1) {
+    return date1.getTime() - date2.getTime();
   },
 
   isCollision: function() {
@@ -164,14 +172,13 @@ let Game = {
       );
     });
   },
-  
 
   initCounter: function() {
     this.frameCounter = 0;
   },
   animate: function() {
     this.player.animate(this.frameCounter);
-    this.demons.forEach(demon=> demon.animate(this.frameCounter));
+    this.demons.forEach(demon => demon.animate(this.frameCounter));
     this.fishes.forEach(fish => fish.animate(this.frameCounter));
   },
   clearRect: function() {

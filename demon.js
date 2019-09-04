@@ -3,13 +3,13 @@ class Demon {
     this.ctx = ctx;
     this.img = new Image();
     this.img.src = "./images/demon-idle.png";
-    this.w=160;
-    this.h=200;
+    this.w=200;
+    this.h=300;
     this.canvasW = w;
     this.canvasH = h;
 
     this.x = w;
-    this.y = this.canvasH/2;
+    this.y = Math.floor(Math.random() * (650 - 200)) + 200;
     this.frames = 6;
     this.frameIndex = 0;
 

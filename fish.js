@@ -9,7 +9,7 @@ class Fish {
     this.canvasH = h;
 
     this.x = w;
-    this.y = Math.floor(Math.random() * ((this.canvasH - 160) - 160 + 1) + 160);
+    this.y = Math.floor(Math.random() * (700 - 200)) + 200;;
     this.frames = 4;
     this.frameIndex = 0;
 

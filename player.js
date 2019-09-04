@@ -46,6 +46,10 @@ class Player {
       }
     }
   }
+  shoot(){
+    
+
+  }
 
   setListeners() {
     document.onkeydown = function(event) {
