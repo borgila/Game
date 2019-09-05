@@ -12,7 +12,7 @@ class Fish {
     this.y = Math.floor(Math.random() * (700 - 150)) + 150;;
     this.frames = 4;
     this.frameIndex = 0;
-    this.dy= 8;
+    this.dy= 5;
     this.dx = 5;
   }
 
@@ -48,29 +48,35 @@ class Fish {
     if(this.x < 500){
       this.x -= this.dx
     }
-    if(this.x < 700){
+    if(this.x > 500 && this.x < 699){
       this.x -= this.dx
-    }
-    if(this.x < 900){
-      this.x -= this.dx
-    }
-    if(this.x < 1100){
-      this.x -= this.dx
+  
       this.y += this.dy
     }
-    if(this.x < 1300 && this.x>1499){
+    if(this.x > 701 && this.x <899){
       this.x -= this.dx
       this.y += this.dy
-
       
     }
-    if(this.x < 1500 && this.x>1699 ){
+    if(this.x > 900 && this.x < 1099){
       this.x -= this.dx
       this.y -= this.dy
     }
-    if(this.x < 1700 && this.x>1701){
+    if(this.x > 1100 && this.x < 1299){
       this.x -= this.dx
       this.y += this.dy
+    }
+    if(this.x > 1300 && this.x < 1499){
+      this.x -= this.dx
+      this.y -= this.dy
+    }
+    if(this.x > 1500 && this.x  < 1699 ){
+      this.x -= this.dx
+      this.y += this.dy
+    }
+    if(this.x > 1700 && this.x < 1900){
+      this.x -= this.dx
+      this.y -= this.dy
     }else this.x -= this.dx
     
     

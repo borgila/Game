@@ -35,12 +35,21 @@ let Game = {
 
         this.animate();
         this.move();
-        
-        if (this.isSquareDemon()){
-          this.demons.forEach((demon)=> demon.w *=0.7)
-          
+
+        if (this.isSquareDemon()) {
+          this.demons.forEach(demon => {
+            demon.w *= 0.7;
+            if (demon.w === 0) {
+              this.demons.splice[(demon, 1)];
+            }
+          });
+          if (this.demons[0].w <= 1) {
+            this.finalBoss = false;
+            // this.img3.src = "./images/layers/grassy_mountains.png";
+            // this.img2.src = "./images/layers/far_mountains.png";
+          }
         }
-        
+
         if (this.isBoost()) {
           this.strenghtPlayer();
         }
@@ -60,8 +69,8 @@ let Game = {
           this.generateGrasos();
         }
 
-         this.isSquareDemon()
-        // this.isSquare();
+        this.isSquareDemon();
+
         this.player.eraseSquares();
         this.eraseFishes();
         this.eraseGrasos();
@@ -83,11 +92,13 @@ let Game = {
     }
   },
   createAll: function() {
-    this.background = new Background(
-      this.canvas.width,
-      this.canvas.height,
-      this.ctx
-    );
+    this.song = new Audio();
+    (this.song.src = "./images/ElDiablo.mp3"),
+      (this.background = new Background(
+        this.canvas.width,
+        this.canvas.height,
+        this.ctx
+      ));
 
     this.player = new Player(
       this.canvas.width,
@@ -118,7 +129,7 @@ let Game = {
     this.demons.forEach(demon => demon.move());
   },
   generateFishes: function() {
-    if (this.frameCounter % 100 == 0) {
+    if (this.frameCounter % 80 == 0) {
       this.fishes.push(
         new Fish(this.canvas.width, this.canvas.height, this.ctx)
       );
@@ -126,7 +137,9 @@ let Game = {
   },
 
   generateDemons: function() {
-    if (this.frameCounter % 2000 === 0) {
+    if (this.frameCounter % 300 === 0) {
+      this.song.play();
+
       this.finalBoss = true;
       this.background.img2.src = "./images/clouds_BG.png";
       this.background.img3.src = "./images/mountains.png";
@@ -136,28 +149,14 @@ let Game = {
       );
     }
   },
-
-  isSquareDemon:  function() {
-    let res = false
-    if (this.demons.length > 0) {
-      this.demons.forEach((demon) => {
-
-        this.player.squares.forEach((square) => {
-        res= this.isSquare(demon,square)
-
-        })
-      })
-    }
-    return res
-  },
-
   generateGrasos: function() {
-    if (this.frameCounter % 100 == 0) {
+    if (this.frameCounter % 60 == 0) {
       this.grasos.push(
         new Graso(this.canvas.width, this.canvas.height, this.ctx)
       );
     }
   },
+  
   eraseFishes: function() {
     this.fishes.forEach((fish, i) => {
       if (fish.x < 0) this.fishes.splice(i, 1);
@@ -171,12 +170,24 @@ let Game = {
   dateDiff: function(date2, date1) {
     return date1.getTime() - date2.getTime();
   },
+  isSquareDemon: function() {
+    let res = false;
+    if (this.demons.length > 0) {
+      this.demons.forEach(demon => {
+        this.player.squares.forEach(square => {
+          res = this.isSquare(demon, square);
+        });
+      });
+    }
+    return res;
+  },
+
   isSquare: function(demon, square) {
-    return (square.x + square.w > demon.x &&
-            square.y + square.h > demon.y &&
-            square.y < demon.y + demon.h)
-    
-   
+    return (
+      square.x + square.w > demon.x &&
+      square.y + square.h > demon.y &&
+      square.y < demon.y + demon.h
+    );
   },
   isCollision: function() {
     return this.fishes.some(fish => {
