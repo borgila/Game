@@ -71,7 +71,7 @@ class Background {
     );
     } 
     move() {
-      this.x2 -= this.dx2
+      this.x2 -= this.dx2&& this.x > 1501
       this.x3 -= this.dx3;
       
       if (this.x3 < -this.w) this.x3 = 0;

@@ -3,14 +3,21 @@ let Game = {
   ctx: undefined,
   score: 0,
   finalBoss: false,
+  demons: [],
+  fishes: [],
+  grasos: [],
+  player: undefined,
+  begin: false,
+
   fps: 60,
   keys: {
     TOP_KEY: 38,
     BOTTOM_KEY: 40,
-    SPACE: 27,
+    SPACE: 32,
     LEFT_KEY: 37,
     RIGHT_KEY: 39
   },
+
   init: function(canvasID) {
     this.canvas = document.getElementById("canvas");
     this.ctx = this.canvas.getContext("2d");
@@ -20,33 +27,45 @@ let Game = {
   start: function() {
     this.initCounter();
     this.interval = setInterval(() => {
-      this.clearRect();
-      let date2 = new Date();
-      this.frameCounter++;
-      this.draw();
-      this.animate();
-      this.move();
-      if (this.isBoost()) {
-        this.strenghtPlayer();
-      }
-      if (this.isCollision()) {
-        if (this.player.w > 50 && this.player.h > 75) {
-          this.player.w *= 0.98;
-          this.player.h *= 0.98;
-        } else {
-          this.gameOver();
-        }
-      }
-      this.score = this.dateDiff(this.date1, date2);
+      if (Game.begin === true) {
+        this.clearRect();
+        let date2 = new Date();
+        this.frameCounter++;
+        this.draw();
 
-      this.generateDemons();
-      if (!this.finalBoss) {
+        this.animate();
+        this.move();
         
-        this.generateFishes();
-        this.generateGrasos();
+        if (this.isSquareDemon()){
+          this.demons.forEach((demon)=> demon.w *=0.7)
+          
+        }
+        
+        if (this.isBoost()) {
+          this.strenghtPlayer();
+        }
+        if (this.isCollision()) {
+          if (this.player.w > 50 && this.player.h > 75) {
+            this.player.w *= 0.98;
+            this.player.h *= 0.98;
+          } else {
+            this.gameOver();
+          }
+        }
+        this.score = this.dateDiff(this.date1, date2);
+
+        this.generateDemons();
+        if (!this.finalBoss) {
+          this.generateFishes();
+          this.generateGrasos();
+        }
+
+         this.isSquareDemon()
+        // this.isSquare();
+        this.player.eraseSquares();
+        this.eraseFishes();
+        this.eraseGrasos();
       }
-      this.eraseFishes();
-      this.eraseGrasos();
     }, 1000 / this.fps);
   },
   stop: function() {
@@ -69,16 +88,7 @@ let Game = {
       this.canvas.height,
       this.ctx
     );
-    // this.background2 = new Background2(
-    //   this.canvas.width,
-    //   this.canvas.height,
-    //   this.ctx
-    // );
-    // this.background3 = new Background3(
-    //   this.canvas.width,
-    //   this.canvas.height,
-    //   this.ctx
-    // );
+
     this.player = new Player(
       this.canvas.width,
       this.canvas.height,
@@ -88,14 +98,11 @@ let Game = {
 
     this.scoreBoard = new ScoreBoard(100, 100, this.ctx);
     this.date1 = new Date();
-    this.demons = [];
-    this.fishes = [];
-    this.grasos = [];
   },
 
   draw: function() {
     this.background.draw();
-    
+
     this.player.draw();
     this.scoreBoard.draw();
 
@@ -105,13 +112,13 @@ let Game = {
   },
   move: function() {
     this.background.move();
-    // this.background3.move();
+
     this.grasos.forEach(graso => graso.move());
     this.fishes.forEach(fish => fish.move());
     this.demons.forEach(demon => demon.move());
   },
   generateFishes: function() {
-    if (this.frameCounter % 120 == 0) {
+    if (this.frameCounter % 100 == 0) {
       this.fishes.push(
         new Fish(this.canvas.width, this.canvas.height, this.ctx)
       );
@@ -119,11 +126,10 @@ let Game = {
   },
 
   generateDemons: function() {
-    if (this.frameCounter % 600 === 0) {
+    if (this.frameCounter % 2000 === 0) {
       this.finalBoss = true;
       this.background.img2.src = "./images/clouds_BG.png";
-      this.background.img3.src = "./images/mountains.png"; 
-
+      this.background.img3.src = "./images/mountains.png";
 
       this.demons.push(
         new Demon(this.canvas.width, this.canvas.height, this.ctx)
@@ -131,8 +137,22 @@ let Game = {
     }
   },
 
+  isSquareDemon:  function() {
+    let res = false
+    if (this.demons.length > 0) {
+      this.demons.forEach((demon) => {
+
+        this.player.squares.forEach((square) => {
+        res= this.isSquare(demon,square)
+
+        })
+      })
+    }
+    return res
+  },
+
   generateGrasos: function() {
-    if (this.frameCounter % 150 == 0) {
+    if (this.frameCounter % 100 == 0) {
       this.grasos.push(
         new Graso(this.canvas.width, this.canvas.height, this.ctx)
       );
@@ -151,7 +171,13 @@ let Game = {
   dateDiff: function(date2, date1) {
     return date1.getTime() - date2.getTime();
   },
-
+  isSquare: function(demon, square) {
+    return (square.x + square.w > demon.x &&
+            square.y + square.h > demon.y &&
+            square.y < demon.y + demon.h)
+    
+   
+  },
   isCollision: function() {
     return this.fishes.some(fish => {
       return (

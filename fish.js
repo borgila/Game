@@ -9,11 +9,11 @@ class Fish {
     this.canvasH = h;
 
     this.x = w;
-    this.y = Math.floor(Math.random() * (700 - 200)) + 200;;
+    this.y = Math.floor(Math.random() * (700 - 150)) + 150;;
     this.frames = 4;
     this.frameIndex = 0;
-
-    this.dx = 10;
+    this.dy= 8;
+    this.dx = 5;
   }
 
   draw() {
@@ -42,6 +42,37 @@ class Fish {
 
 
   move() {
-    this.x -= this.dx;
+    if(this.x < 300){
+      this.x -= this.dx
+    }
+    if(this.x < 500){
+      this.x -= this.dx
+    }
+    if(this.x < 700){
+      this.x -= this.dx
+    }
+    if(this.x < 900){
+      this.x -= this.dx
+    }
+    if(this.x < 1100){
+      this.x -= this.dx
+      this.y += this.dy
+    }
+    if(this.x < 1300 && this.x>1499){
+      this.x -= this.dx
+      this.y += this.dy
+
+      
+    }
+    if(this.x < 1500 && this.x>1699 ){
+      this.x -= this.dx
+      this.y -= this.dy
+    }
+    if(this.x < 1700 && this.x>1701){
+      this.x -= this.dx
+      this.y += this.dy
+    }else this.x -= this.dx
+    
+    
   }
 }

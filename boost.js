@@ -8,11 +8,11 @@ class Graso {
     this.canvasW = w;
     this.canvasH = h;
 
-    this.x = w;
-    this.y = Math.floor(Math.random() * ((this.canvasH - 160) - 160 + 1) + 160);
+    this.x = w;                          
+    this.y = Math.floor(Math.random() * (850 - 600 + 1)) + 600;
     
-
-    this.dx = 10;
+    this.dy = 2
+    this.dx = 17;
   }
 
   draw() {
@@ -31,6 +31,8 @@ class Graso {
 
 
   move() {
+    
     this.x -= this.dx;
+    this.y -= this.dy
   }
 }

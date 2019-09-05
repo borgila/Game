@@ -1,3 +1,4 @@
+//mejorar el movimiento del demonio y colisiones
 class Demon {
   constructor(w, h, ctx) {
     this.ctx = ctx;
@@ -12,7 +13,7 @@ class Demon {
     this.y = Math.floor(Math.random() * (650 - 200)) + 200;
     this.frames = 6;
     this.frameIndex = 0;
-
+    this.dy=600;
     this.dx = 10;
   }
 
@@ -31,7 +32,7 @@ class Demon {
        );
   }
   animate(framesCounter) {
-    console.log(framesCounter)
+    
   if (framesCounter % 6 === 0) {
     this.frameIndex++;
 
@@ -42,7 +43,12 @@ class Demon {
 }
 
 
-  move() {
+  move(framesCounter) {
     this.x -= this.dx;
+    if(framesCounter > 600 && framesCounter < 650 )
+     {this.y-=this.dy
+     console.log("hola")
+     }
+    
   }
 }

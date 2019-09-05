@@ -5,24 +5,20 @@ class Player {
 
     this.ctx = ctx;
     this.keys = keys;
-    this.x =  700;
-    this.y =  450;
+    this.x = 700;
+    this.y = 450;
+    this.squares = [];
 
     this.img = new Image();
     this.img.src = "images/walk-sequence.png";
 
-    // número de imágenes diferentes
     this.frames = 8;
     this.frameIndex = 0;
 
-    // medidas de la imagen a representar en el canvas
     this.w = 50;
     this.h = 75;
 
-    //this.vy = 7;
     this.setListeners();
-
-    //this.setListeners();
   }
   draw() {
     this.ctx.drawImage(
@@ -36,6 +32,8 @@ class Player {
       this.w,
       this.h
     );
+    this.squares.forEach(square => square.draw());
+    this.squares.forEach(square => square.move());
   }
   animate(framesCounter) {
     if (framesCounter % 8 === 0) {
@@ -46,9 +44,15 @@ class Player {
       }
     }
   }
-  shoot(){
+  shoot() {
+    var square = new Square(this.x, this.y, this.ctx);
+    this.squares.push(square);
     
-
+  }
+  eraseSquares() {
+    this.squares = this.squares.filter((square, i) => {
+      return square.x < 1850
+    });
   }
 
   setListeners() {
@@ -58,33 +62,34 @@ class Player {
           this.y -= 30;
           if (this.y <= 0) {
             this.y = 0;
-          } 
+          }
           break;
 
         case this.keys.BOTTOM_KEY:
           this.y += 30;
-          
-          if (this.y >=855) {
+
+          if (this.y >= 855) {
             this.y = 855;
           }
           break;
         case this.keys.RIGHT_KEY:
           this.x += 30;
-          if( this.x >= 1750 ){
-            this.x = 1750
+          if (this.x >= 1750) {
+            this.x = 1750;
           }
 
           break;
 
         case this.keys.LEFT_KEY:
           this.x -= 30;
-          if(this.x - this.w <=0){
-            this.x =0
+          if (this.x - this.w <= 0) {
+            this.x = 0;
           }
           break;
 
         case this.keys.SPACE:
           this.shoot();
+
           break;
       }
     }.bind(this);
