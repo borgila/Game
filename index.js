@@ -7,6 +7,5 @@ window.onload = function() {
     start.style = "display:none";
     Game.begin = true;
     Game.init("canvas");
-    // this.beastie.pause();
   };
 };

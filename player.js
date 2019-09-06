@@ -5,7 +5,7 @@ class Player {
 
     this.ctx = ctx;
     this.keys = keys;
-    this.x = 700;
+    this.x = 300;
     this.y = 450;
     this.squares = [];
 

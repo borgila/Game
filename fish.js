@@ -54,8 +54,8 @@ class Fish {
       this.y += this.dy
     }
     if(this.x > 701 && this.x <899){
-      this.x -= this.dx
-      this.y += this.dy
+      this.x -= (this.dx )
+      this.y -= this.dy
       
     }
     if(this.x > 900 && this.x < 1099){
@@ -63,20 +63,20 @@ class Fish {
       this.y -= this.dy
     }
     if(this.x > 1100 && this.x < 1299){
-      this.x -= this.dx
+      this.x -= (this.dx*2)
       this.y += this.dy
     }
     if(this.x > 1300 && this.x < 1499){
-      this.x -= this.dx
+      this.x -= (this.dx*8)
       this.y -= this.dy
     }
     if(this.x > 1500 && this.x  < 1699 ){
-      this.x -= this.dx
-      this.y += this.dy
+      this.x -= (this.dx*8)
+      this.y -= this.dy
     }
     if(this.x > 1700 && this.x < 1900){
-      this.x -= this.dx
-      this.y -= this.dy
+      this.x -= (this.dx*2)
+      this.y += this.dy
     }else this.x -= this.dx
     
     

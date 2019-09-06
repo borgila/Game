@@ -13,14 +13,27 @@ div{
   
 }
 h1{
-  font: bold;
-  font-size: 70px;
-  color: red;
+  
+  font-family: 'Franklin Gothic Medium';
+  
+  font-size: 120px;
+  color: rgb(128, 41, 80);
+  margin: 50px;
+  text-align: center;
 }
+
 button{
-  color: blue;
+  color: orangered;
   border-radius: 50%;
+  font-size: 20px;
   padding: 10px;
   margin: 50 50;
   background-color: blanchedalmond;
+  width: 150px;
+  height: 150px;
+  transition: 0.5s all ease;
+  cursor: pointer;
+}
+button:hover{
+  background-color: rgb(128, 41, 80);
 }
