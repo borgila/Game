@@ -61,8 +61,16 @@ let Game = {
         }
         if (this.isCollision()) {
           if (this.player.w > 50 && this.player.h > 75) {
-            this.player.w *= 0.98;
-            this.player.h *= 0.98;
+            this.player.w *= 0.96;
+            this.player.h *= 0.96;
+          } else {
+            this.gameOver();
+          }
+        }
+        if (this.isDemolision()) {
+          if (this.player.w > 50 && this.player.h > 75) {
+            this.player.w *= 0.96;
+            this.player.h *= 0.96;
           } else {
             this.gameOver();
           }
@@ -76,7 +84,7 @@ let Game = {
         }
 
         this.isSquareDemon();
-
+        this.isDemolision();
         this.player.eraseSquares();
         this.eraseFishes();
         this.eraseGrasos();
@@ -87,8 +95,8 @@ let Game = {
     clearInterval(this.interval);
   },
   strenghtPlayer: function() {
-    this.player.w *= 1.02;
-    this.player.h *= 1.02;
+    this.player.w *= 1.04;
+    this.player.h *= 1.04;
   },
   gameOver: function() {
     this.stop();
@@ -218,6 +226,16 @@ let Game = {
         this.player.x < fish.x + fish.w &&
         this.player.y + (this.player.h - 30) >= fish.y &&
         this.player.y < fish.y + fish.h
+      );
+    });
+  },
+  isDemolision: function() {
+    return this.demons.some(demon => {
+      return (
+        this.player.x - 30 + this.player.w >= demon.x &&
+        this.player.x < demon.x + demon.w &&
+        this.player.y + (this.player.h - 30) >= demon.y &&
+        this.player.y < demon.y + demon.h
       );
     });
   },

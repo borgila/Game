@@ -11,7 +11,7 @@ class ScoreBoard {
   
   draw(){
     this.ctx.font = "60px aryal";
-    this.ctx.fillStyle = rgb(128, 41, 80);
+    this.ctx.fillStyle = "red";
     this.ctx.fillText(Math.floor(Game.score/1000),100,100)
    
   }
