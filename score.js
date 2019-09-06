@@ -10,9 +10,9 @@ class ScoreBoard {
   }
   
   draw(){
-    this.ctx.font = "30px sans-serif";
+    this.ctx.font = "60px aryal";
     this.ctx.fillStyle = "red";
-    this.ctx.fillText(Math.floor(Game.score/1000),30,30)
+    this.ctx.fillText(Math.floor(Game.score/1000),100,100)
    
   }
 };

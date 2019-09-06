@@ -9,7 +9,7 @@ class Graso {
     this.canvasH = h;
 
     this.x = w;
-    this.y = Math.floor(Math.random() * (650 - 300)) + 300;
+    this.y = Math.floor(Math.random() * (650 - 100)) + 100;
 
     this.dy = 15;
     this.dx = 10;
